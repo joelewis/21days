@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ithoughts.twentyonedays"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.ithoughts.twentyonedays.LaunchActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ithoughts.twentyonedays.AddActivity"
+            android:label="@string/title_activity_add"
+            android:parentActivityName="com.ithoughts.twentyonedays.LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ithoughts.twentyonedays.LaunchActivity" />
+        </activity>
+
+        <receiver android:name="com.ithoughts.twentyonedays.HabitatorBootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.ithoughts.twentyonedays.HabitatorAlarmReceiver" />
+
+        <service android:name="com.ithoughts.twentyonedays.NotificationService" />
+
+        <activity
+            android:name="com.ithoughts.twentyonedays.PlotActivity"
+            android:label="@string/title_activity_plot"
+            android:parentActivityName="com.ithoughts.twentyonedays.LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ithoughts.twentyonedays.LaunchActivity" />
+        </activity>
+        <activity
+            android:name="com.ithoughts.twentyonedays.UpdateTracker"
+            android:label="@string/title_activity_update_tracker"
+            android:parentActivityName="com.ithoughts.twentyonedays.PlotActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ithoughts.twentyonedays.PlotActivity" />
+        </activity>
+    </application>
+
+</manifest>
