@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,19 +13,24 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class LaunchActivity extends Activity {
 
 	DataShop datashop;
 	Context context = this;
+	ListView lvv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +135,7 @@ public class LaunchActivity extends Activity {
 		
 	   final ListView listView;
 	   listView = lv;
+	   lvv = lv;
 		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			//lv.setOnItemClickListener(new OnItemClickListener() {
@@ -144,12 +149,73 @@ public class LaunchActivity extends Activity {
 	    	         System.out.println("id: " + itemid);
 	    	         Intent inten1=new Intent(getBaseContext(), PlotActivity.class);
 	    	         inten1.putExtra("id", itemid);
-	    	         startActivity(inten1);    
+	    	         startActivityForResult(inten1, 1);    
 	    		}
 		});
+		
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+			//lv.setOnItemClickListener(new OnItemClickListener() {
+
+		      //  public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
+	    		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	    				
+	    	         ArrayAdapter<TaskPlus> adapter1 = (ArrayAdapter<TaskPlus>) listView.getAdapter();
+	    	         TaskPlus task = (TaskPlus) parent.getAdapter().getItem(position);
+	    	         long itemid = task.id;
+	    	         System.out.println("id: " + itemid);
+	    	         Intent inten1=new Intent(getBaseContext(), PlotActivity.class);
+	    	         inten1.putExtra("id", itemid);
+	    	         startActivity(inten1);    
+	    		}
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				
+				ArrayAdapter<TaskPlus> adapter1 = (ArrayAdapter<TaskPlus>) listView.getAdapter();
+   	         	TaskPlus task = (TaskPlus) parent.getAdapter().getItem(position);
+   	         	long itemid = task.id;
+   	         	
+				
+   	         	
+   	         	return false;
+			}
+		});
+		
+		registerForContextMenu(listView);
+		
 		//I
 	}
 	
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	                                ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.floating, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	    switch (item.getItemId()) {
+	        case R.id.edit_option:
+	        	System.out.println("id:" + info.getClass());
+	        	int id = ((ArrayAdapter<TaskPlus>) lvv.getAdapter()).getItem(info.position).id;
+	        	System.out.println("id: " + id);
+	        	Intent intent = new Intent(this, EditActivity.class);
+	        	intent.putExtra("id", id);
+	        	startActivity(intent);
+	            //editNote(info.id);
+	            return true;
+	        case R.id.delete_option:
+	            //deleteNote(info.id);
+	            return true;
+	        default:
+	            return super.onContextItemSelected(item);
+	    }
+	}
 	
 	public void scheduleAlarmReceiver(Calendar cal_alarm) {
 	      AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);

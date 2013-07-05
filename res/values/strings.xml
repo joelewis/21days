@@ -7,5 +7,6 @@
     <string name="title_activity_add">AddActivity</string>
     <string name="title_activity_plot">PlotActivity</string>
     <string name="title_activity_update_tracker">UpdateTracker</string>
+    <string name="title_activity_edit">EditActivity</string>
 
 </resources>

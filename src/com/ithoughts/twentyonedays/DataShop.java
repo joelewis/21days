@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 
 
@@ -76,6 +77,53 @@ public class DataShop {
     		  System.out.println("dotColor[ " + i + " " + task.dotColors[i] );
     	  }
     	  return task;
+      }
+      
+      public String getTaskNameById(int id) {
+    	 
+    	  Cursor cursor = database.query(DbHelper.TABLE_TASKS, TableTasksAllColumns,  " _id = " + id, null, null, null, null);    	   
+    	  System.out.println("datashop: " +cursor.getCount());
+    	  cursor.moveToFirst();
+    	  int i = cursor.getColumnIndex("task");
+    	  String name = cursor.getString(i);
+    	  return name;
+      }
+      
+      public long getTaskAlarmTimeById(int id) {
+    	  
+    	  Cursor cursor = database.query(DbHelper.TABLE_TASKS, TableTasksAllColumns, DbHelper.COLUMN_ID + " = " + id, null, null, null, null);
+    	  cursor.moveToFirst();
+    	  long ms; 
+    	  ms = cursor.getLong(2);
+    	  return ms;
+      }
+      
+      public String[] getTaskDaysById(int id) {
+    	  String[] days = new String[7];
+    	  Cursor cursor = database.query(DbHelper.TABLE_TASKDAYS, TableTaskDaysAllColumns, DbHelper.COLUMN_TID + " = " + id, null, null, null, null);
+    	  cursor.moveToFirst();
+    	  for(int i=0; i<cursor.getCount(); i++) {
+    		  switch(cursor.getInt(3)) {
+    		  case 1:
+    			  days[i] = "Sunday"; break;
+    		  case 2:
+    			  days[i] = "Monday"; break;
+    		  case 3:
+    			  days[i] = "Tuesday"; break;
+    		  case 4:
+    			  days[i] = "Wednesday"; break;
+    		  case 5:
+    			  days[i] = "Thursday"; break;
+    		  case 6:
+    			  days[i] = "Friday"; break;
+    		  case 7:
+    			  days[i] = "Saturday"; break;
+    		  }
+    		  if(!cursor.isLast()) {
+    			  cursor.moveToNext();
+    		  }
+    	  }
+    	  return days;
       }
       
       public int[] getValidDays(int id) {
@@ -248,7 +296,7 @@ public class DataShop {
     	  if(cursor.getCount() > 0) {
     		  values.put(DbHelper.COLUMN_STATUS, stat);
     		
-    		  database.update(DbHelper.TABLE_TRACKER, values, DbHelper.COLUMN_NID + " = " + id, null);
+    		  database.update(DbHelper.TABLE_TRACKER, values, DbHelper.COLUMN_DAYOFYEAR + " = " + dayofyear + " and " + DbHelper.COLUMN_TID1 + " = " + id, null);
     		  System.out.println("updated status");
     	  }
     	  else {

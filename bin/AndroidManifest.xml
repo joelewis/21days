@@ -59,6 +59,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ithoughts.twentyonedays.PlotActivity" />
         </activity>
+        <activity
+            android:name="com.ithoughts.twentyonedays.EditActivity"
+            android:label="@string/title_activity_edit"
+            android:parentActivityName="com.ithoughts.twentyonedays.LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ithoughts.twentyonedays.LaunchActivity" />
+        </activity>
     </application>
 
 </manifest>

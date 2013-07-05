@@ -40,54 +40,65 @@ public final class R {
         public static final int red=0x7f020010;
         public static final int rounded_corner=0x7f020011;
         public static final int rounded_corner_view=0x7f020012;
-        public static final int rred=0x7f020013;
+        public static final int rounded_corner_view_red=0x7f020013;
+        public static final int rred=0x7f020014;
     }
     public static final class id {
-        public static final int action_settings=0x7f080014;
+        public static final int action_settings=0x7f080016;
         public static final int add_alarm_time=0x7f080002;
         public static final int add_days=0x7f080001;
-        public static final int add_task=0x7f080016;
-        public static final int add_task_done=0x7f080015;
+        public static final int add_task=0x7f08001c;
+        public static final int add_task_done=0x7f080017;
         public static final int add_task_name=0x7f080000;
-        public static final int day1=0x7f08000d;
-        public static final int day2=0x7f08000e;
-        public static final int day3=0x7f08000f;
-        public static final int day4=0x7f080010;
-        public static final int day5=0x7f080011;
-        public static final int day6=0x7f080012;
-        public static final int day7=0x7f080013;
-        public static final int edit_tracker=0x7f080017;
-        public static final int grid_footer=0x7f080005;
-        public static final int grid_view=0x7f080004;
-        public static final int hit_miss=0x7f080006;
-        public static final int lay=0x7f08000c;
-        public static final int mark_list=0x7f080007;
-        public static final int radio=0x7f08000a;
-        public static final int task_list=0x7f080003;
-        public static final int text1=0x7f08000b;
-        public static final int text11=0x7f080008;
-        public static final int text22=0x7f080009;
-        public static final int upda_tracker=0x7f080018;
+        public static final int day1=0x7f08000f;
+        public static final int day2=0x7f080010;
+        public static final int day3=0x7f080011;
+        public static final int day4=0x7f080012;
+        public static final int day5=0x7f080013;
+        public static final int day6=0x7f080014;
+        public static final int day7=0x7f080015;
+        public static final int delete_option=0x7f08001b;
+        public static final int edit_done=0x7f080003;
+        public static final int edit_option=0x7f08001a;
+        public static final int edit_tracker=0x7f08001d;
+        public static final int grid_footer=0x7f080007;
+        public static final int grid_view=0x7f080006;
+        public static final int hit_miss=0x7f080008;
+        public static final int lay=0x7f08000e;
+        public static final int mark_list=0x7f080009;
+        public static final int menu_delete=0x7f080019;
+        public static final int menu_edit=0x7f080018;
+        public static final int radio=0x7f08000c;
+        public static final int task_delete=0x7f080004;
+        public static final int task_list=0x7f080005;
+        public static final int text1=0x7f08000d;
+        public static final int text11=0x7f08000a;
+        public static final int text22=0x7f08000b;
+        public static final int upda_tracker=0x7f08001e;
     }
     public static final class layout {
         public static final int activity_add=0x7f030000;
-        public static final int activity_launch=0x7f030001;
-        public static final int activity_plot=0x7f030002;
-        public static final int activity_update_tracker=0x7f030003;
-        public static final int simple_list_item_2=0x7f030004;
-        public static final int two_line_week=0x7f030005;
+        public static final int activity_edit=0x7f030001;
+        public static final int activity_launch=0x7f030002;
+        public static final int activity_plot=0x7f030003;
+        public static final int activity_update_tracker=0x7f030004;
+        public static final int simple_list_item_2=0x7f030005;
+        public static final int two_line_week=0x7f030006;
     }
     public static final class menu {
         public static final int add=0x7f070000;
-        public static final int launch=0x7f070001;
-        public static final int plot=0x7f070002;
-        public static final int update_tracker=0x7f070003;
+        public static final int edit=0x7f070001;
+        public static final int floating=0x7f070002;
+        public static final int launch=0x7f070003;
+        public static final int plot=0x7f070004;
+        public static final int update_tracker=0x7f070005;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
         public static final int title_activity_add=0x7f050003;
+        public static final int title_activity_edit=0x7f050006;
         public static final int title_activity_plot=0x7f050004;
         public static final int title_activity_update_tracker=0x7f050005;
     }
