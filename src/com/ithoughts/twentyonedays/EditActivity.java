@@ -99,7 +99,13 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
         protected void onPostExecute(final Void unused){
         	
             //update UI with my objects
-
+        	
+        	Calendar cal_now = Calendar.getInstance();
+        	cal_now.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+        	cal_now.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
+        	hour = cal_now.HOUR_OF_DAY;
+        	minute = cal_now.MINUTE;
+        	cal = cal_now;
         	updateui();
         	
            
@@ -149,8 +155,8 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
 				hour = selectedHour;
 				minute = selectedMinute;
 				Calendar cal_alarm = Calendar.getInstance();
-				Date date = new Date();
-				cal_alarm.setTime(date);
+				//Date date = new Date();
+				//cal_alarm.setTime(date);
 				cal_alarm.set(Calendar.HOUR_OF_DAY, hour);
 				cal_alarm.set(Calendar.MINUTE, minute);
 				mss = cal_alarm.getTimeInMillis();
@@ -169,10 +175,12 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
 
 	public void saveThis(View v) {
 		Intent data = new Intent();
+		data.putExtra("id", id);
 		data.putExtra("name", ((TextView)findViewById(R.id.add_task_name)).getText().toString());
 		data.putExtra("alarm-hour", hour);
 		data.putExtra("alarm-minute", minute);
-		data.putExtra("days", selectedItems);
+		data.putExtra("days", selectedItems); 
+		System.out.println("mss: " + mss);
 		data.putExtra("mss", mss);
 		setResult(RESULT_OK, data);
 		super.finish();
@@ -212,6 +220,7 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
 			
 		case R.id.menu_edit:
 			Intent data = new Intent();
+			data.putExtra("id", id);
 			data.putExtra("name", ((TextView)findViewById(R.id.add_task_name)).getText().toString());
 			data.putExtra("alarm-hour", hour);
 			data.putExtra("alarm-minute", minute);

@@ -3,6 +3,7 @@ package com.ithoughts.twentyonedays;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.IInterface;
 import android.util.Log;
 
 public class HabitatorAlarmReceiver extends BroadcastReceiver {
@@ -13,6 +14,8 @@ public class HabitatorAlarmReceiver extends BroadcastReceiver {
       Log.i(Constants.LOG_TAG, "DealAlarmReceiver invoked, starting DealService in background");
       Log.i("AlarmReceiver", " ");
 
-      context.startService(new Intent(context, NotificationService.class));
+      Intent i = new Intent(context, NotificationService.class);
+      i.putExtra("id", intent.getExtras().getInt("id"));
+      context.startService(i);
    }
 }

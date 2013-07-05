@@ -21,7 +21,7 @@ public class DataShop {
 	  private DbHelper dbhelper;
 	  
 	  
-	  public String[] TableTasksAllColumns = { DbHelper.COLUMN_ID, DbHelper.COLUMN_TASK, DbHelper.COLUMN_TIME, DbHelper.COLUMN_INITDATE };
+	  public String[] TableTasksAllColumns = { DbHelper.COLUMN_ID, DbHelper.COLUMN_TASK, DbHelper.COLUMN_TIME, DbHelper.COLUMN_INITDATE, DbHelper.COLUMN_PRIORITY };
 	  
 	  public String[] TableTrackerAllColumns = { DbHelper.COLUMN_NID, DbHelper.COLUMN_TID1, DbHelper.COLUMN_CURDATE, DbHelper.COLUMN_DAYOFYEAR, DbHelper.COLUMN_STATUS, DbHelper.COLUMN_DAYOFMONTH, DbHelper.COLUMN_DAYOFWEEK, DbHelper.COLUMN_MONTH, DbHelper.COLUMN_YEAR };
 
@@ -77,6 +77,36 @@ public class DataShop {
     		  System.out.println("dotColor[ " + i + " " + task.dotColors[i] );
     	  }
     	  return task;
+      }
+      
+      public void update_task(String taskName, long alarmTime, long initDate, boolean[] days, int id) {
+    	  ContentValues values = new ContentValues();
+    	  values.put(DbHelper.COLUMN_TASK, taskName);
+    	  values.put(DbHelper.COLUMN_TIME, alarmTime);
+
+    	  database.update(DbHelper.TABLE_TASKS, values, " _id = " + id, null);
+    	  ContentValues values1 = new ContentValues();
+    	  for(int i=0; i<days.length; i++) {	
+    		if(days[i] == true)  {
+    			values1.put("days", 1);
+    			
+    		} else {
+    			values1.put("days", 0);   			
+    		}
+    		database.update(DbHelper.TABLE_TASKDAYS, values1, " tid = " + id + " and " + " weekday = " + (i+1), null);
+    		
+    	  	//database.update(DbHelper.TABLE_TASKDAYS, values1, " tid = " + id, null);
+    	  	System.out.println("updated where tid = " + id);
+    	  }
+    	  /*
+    	  TaskPlus task = new TaskPlus();
+    	  task.name = taskName;
+    	  task.id = (int) rowid;
+    	  task.dotColors = get_task_status_for_week(task.id);
+    	  for(int i=0; i<task.dotColors.length; i++) {
+    		  System.out.println("dotColor[ " + i + " " + task.dotColors[i] );
+    	  }
+    	  return task;  */
       }
       
       public String getTaskNameById(int id) {
@@ -166,6 +196,24 @@ public class DataShop {
     		  for(int j=0; j<task.dotColors.length; j++) {
         		  System.out.println("dotColor[ " + j + " - " + task.dotColors[j] );
         	  }
+    		  tasks.add(task);
+    		  if(!cursor.isLast()) {
+    		  cursor.moveToNext();
+    		  }
+    	  }
+    	  
+    	  return tasks;
+      }
+      
+      public ArrayList<TaskWithAlarm> get_all_tasks_with_alarm() {
+     	 
+    	  ArrayList<TaskWithAlarm> tasks = new ArrayList<TaskWithAlarm>();
+    	  Cursor cursor = database.query(DbHelper.TABLE_TASKS, TableTasksAllColumns, null, null, null, null, DbHelper.COLUMN_PRIORITY+" DESC");
+    	  cursor.moveToFirst();    	  
+    	  for(int i=0; i<cursor.getCount(); ++i) {
+    		  TaskWithAlarm task = new TaskWithAlarm();
+    		  task.id = cursor.getInt(0);
+    		  task.ms = cursor.getLong(2);
     		  tasks.add(task);
     		  if(!cursor.isLast()) {
     		  cursor.moveToNext();

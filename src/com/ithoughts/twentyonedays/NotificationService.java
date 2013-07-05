@@ -2,7 +2,6 @@
 package com.ithoughts.twentyonedays;
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.annotation.TargetApi;
@@ -11,12 +10,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
-import android.widget.ListView;
 
 
 
@@ -55,21 +50,38 @@ public class NotificationService extends IntentService {
 	        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		    int unique_id = 145558;
 		    Log.i("status bar" +unique_id , " ");
-		   
-		    	String title = "New Subjects Today!";
-		    	String body = "Foo";
+		    int id = intent.getExtras().getInt("id");
+		    
+		    
+		    
+		    DataShop datashop = new DataShop(getApplicationContext());
+		    datashop.open();
+		    Calendar now = Calendar.getInstance();
+		    int weekday = now.get(Calendar.DAY_OF_WEEK);
+		    if(datashop.getDayStatus(id, weekday) == 1) {
 		    	
+		    	String name = datashop.getTaskNameById(id);
+		    	
+		    	String title = "New Activity";
+		    	String body = "Did you do this? y/n - " + name;
+		    
+		    
+		    
 		    	Intent nintent = new Intent();
+		    
 		    	nintent.setClass(this, LaunchActivity.class);
-		    	PendingIntent pin = PendingIntent.getActivity(getApplicationContext(),0, nintent, 0);
+		    
+		    	PendingIntent pin = PendingIntent.getActivity(getApplicationContext(), 0, nintent, 0);
+		    
 		    	Notification n = new Notification(R.drawable.ic_launcher, body, System.currentTimeMillis());			    
 		    
 		    	n.contentIntent = pin;
 		    	n.setLatestEventInfo(getApplicationContext(), title, body, pin);
 		    	n.defaults = Notification.DEFAULT_ALL;
 		    	n.flags |= Notification.FLAG_AUTO_CANCEL;
-		 	   nm.notify(unique_id, n); 	  
-		    }
+		 	    nm.notify(unique_id, n); 	  
+		    	}
+   			}
 		    	    
    }
    
@@ -77,20 +89,5 @@ public class NotificationService extends IntentService {
 
         
 
-/*
-   
-   private void sendNotification(Context context, int numNewDeals) {
-      Intent notificationIntent = new Intent(context, null);
-      notificationIntent.putExtra(Constants.FORCE_RELOAD, true);
-      PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-      NotificationManager notificationMgr =
-               (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-      Notification notification =
-               new Notification(android.R.drawable.star_on, "New Notification", System
-                        .currentTimeMillis());
-      notification.flags |= Notification.FLAG_AUTO_CANCEL;
-      notification.setLatestEventInfo(context, "Title", "nothing", contentIntent);
-      notificationMgr.notify(0, notification);
-   } */
 

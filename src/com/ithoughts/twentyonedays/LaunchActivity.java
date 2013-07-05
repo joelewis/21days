@@ -86,6 +86,13 @@ public class LaunchActivity extends Activity {
             Log.i("async", "name: " + name+" itemlength: " + days.length);
             task1 = task;
             
+             Calendar cal_alarm = Calendar.getInstance();
+	         cal_alarm.setTimeInMillis(alarmTime);
+	         Calendar cal_now = Calendar.getInstance();
+	         cal_now.set(Calendar.HOUR_OF_DAY, cal_alarm.get(Calendar.HOUR_OF_DAY));
+	         cal_now.set(Calendar.MINUTE, cal_alarm.get(Calendar.MINUTE));
+            
+            scheduleAlarmReceiver(cal_now, task.id); 
             
         	
             return null;
@@ -108,6 +115,69 @@ public class LaunchActivity extends Activity {
         }
     }
 	
+	
+	class UpdateTask extends AsyncTask<Object, Void, Void> {
+		 
+		
+		TaskPlus task1;
+        @Override
+        protected Void doInBackground(Object... objects) {
+        	datashop = new DataShop(context);
+        	datashop.open();        	
+        	//tasks = datashop.get_all_tasks();
+        	//datashop.close();
+        	/*
+        	int id = (Integer) objects[0];
+        	long[] ids = new long[1];
+    		ids[0] = id;
+    		datashop.deleteMultipleTasks(ids);
+    		datashop.deleteNotify(ids);
+    		datashop.deleteTaskDays(ids);
+        	
+    		String name = (String) objects[2];
+        	boolean[] days = (boolean[]) objects[3];
+        	long initdate = (Long) objects[1];
+        	//long alarmTime = (Long) objects[0];
+        	*/
+        	int id = (Integer) objects[0];
+        	String taskName = (String) objects[2];
+        	long alarmTime = (Long) objects[4];
+        	boolean[] days = (boolean[]) objects[3];
+        	long initdate = (Long) objects[1];
+       
+        	System.out.println("alarmTime" + alarmTime);
+        	for(int i=0; i<days.length; i++) {
+        		System.out.println("day[i]" + days[i]);
+        	}
+        	
+        	datashop.update_task(taskName, alarmTime, initdate, days, id);
+            //Log.i("async", "name: " + name+" itemlength: " + days.length);
+            //task1 = task;
+            
+            
+        	
+            return null;
+        }
+        
+        
+        @Override
+        protected void onPostExecute(final Void unused){
+        	
+            //update UI with my objects
+
+        	//updateUi(tasks);
+        	ListView lv = (ListView) findViewById(R.id.task_list);
+            ArrayAdapter<TaskPlus> adapter =  (ArrayAdapter<TaskPlus> )lv.getAdapter();
+        	//adapter.add(task1);
+        	adapter.notifyDataSetChanged();
+        	
+        	
+           
+        }
+    }
+	
+	
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		  if (requestCode == 1) {
 
@@ -115,10 +185,9 @@ public class LaunchActivity extends Activity {
 		    	 System.out.println("back to caller...");
 		         long alarmTime = (data.getIntExtra("alarm-hour", 9) * 100) + data.getIntExtra("alarm-minute", 30);
 		         long initdate = Calendar.getInstance().getTimeInMillis();
-		         Calendar cal_alarm = Calendar.getInstance();
+		         Calendar cal_now = Calendar.getInstance();
 		         long ms = data.getExtras().getLong("ms");
-		         cal_alarm.setTimeInMillis(ms);
-		         scheduleAlarmReceiver(cal_alarm); 
+		         
 		         new AddTask().execute(alarmTime, initdate, data.getStringExtra("name"), data.getBooleanArrayExtra("days"), ms);
 		          
 		     }
@@ -126,7 +195,31 @@ public class LaunchActivity extends Activity {
 		         //Write your code if there's no result
 		     }
 		  }
+		  
+		  if (requestCode == 2) {
+
+			     if(resultCode == RESULT_OK){      
+			    	 System.out.println("back to caller...");
+			    	 int id = data.getExtras().getInt("id");
+			         long alarmTime = (data.getIntExtra("alarm-hour", 9) * 100) + data.getIntExtra("alarm-minute", 30);
+			         long initdate = Calendar.getInstance().getTimeInMillis();
+			         Calendar cal_now = Calendar.getInstance();
+			         long ms = data.getExtras().getLong("mss");
+			         cal_now.setTimeInMillis(ms);
+			         Calendar cal_alarm = Calendar.getInstance();
+			         cal_alarm.set(Calendar.HOUR_OF_DAY, cal_now.get(Calendar.HOUR_OF_DAY));
+			         cal_alarm.set(Calendar.MINUTE, cal_now.get(Calendar.MINUTE));
+			         scheduleAlarmReceiver(cal_alarm, id); 
+			         new UpdateTask().execute(id, initdate, data.getStringExtra("name"), data.getBooleanArrayExtra("days"), ms);
+			          
+			     }
+			     if (resultCode == RESULT_CANCELED) {    
+			         //Write your code if there's no result
+			     }
+			  }
 		}//onActivityResult
+	
+
 	
 	public void updateUi(List<TaskPlus> tasks) {
 		ListView lv = (ListView) findViewById(R.id.task_list);
@@ -163,9 +256,9 @@ public class LaunchActivity extends Activity {
 	    	         TaskPlus task = (TaskPlus) parent.getAdapter().getItem(position);
 	    	         long itemid = task.id;
 	    	         System.out.println("id: " + itemid);
-	    	         Intent inten1=new Intent(getBaseContext(), PlotActivity.class);
-	    	         inten1.putExtra("id", itemid);
-	    	         startActivity(inten1);    
+	    	         //Intent inten1=new Intent(getBaseContext(), PlotActivity.class);
+	    	         //inten1.putExtra("id", itemid);
+	    	         //startActivity(inten1);    
 	    		}
 
 			@Override
@@ -206,7 +299,7 @@ public class LaunchActivity extends Activity {
 	        	System.out.println("id: " + id);
 	        	Intent intent = new Intent(this, EditActivity.class);
 	        	intent.putExtra("id", id);
-	        	startActivity(intent);
+	        	startActivityForResult(intent,2);
 	            //editNote(info.id);
 	            return true;
 	        case R.id.delete_option:
@@ -217,9 +310,9 @@ public class LaunchActivity extends Activity {
 	    }
 	}
 	
-	public void scheduleAlarmReceiver(Calendar cal_alarm) {
+	public void scheduleAlarmReceiver(Calendar cal_alarm, int id) {
 	      AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-	      PendingIntent pendingIntent =  PendingIntent.getBroadcast(this, 0, new Intent(this, HabitatorAlarmReceiver.class),
+	      PendingIntent pendingIntent =  PendingIntent.getBroadcast(this, id, new Intent(this, HabitatorAlarmReceiver.class).putExtra("id", id),
 		                        PendingIntent.FLAG_CANCEL_CURRENT);
 	      Date dat  = new Date();//initializes to now
 	      //Calendar cal_alarm = Calendar.getInstance();
