@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -101,13 +102,18 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
             //update UI with my objects
         	
         	Calendar cal_now = Calendar.getInstance();
+        	
+        	System.out.println(id);
+        	System.out.println(id);
         	cal_now.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
         	cal_now.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
-        	hour = cal_now.HOUR_OF_DAY;
-        	minute = cal_now.MINUTE;
+        	hour = cal_now.get(Calendar.HOUR_OF_DAY);
+        	minute = cal_now.get(Calendar.MINUTE);
         	cal = cal_now;
         	updateui();
-        	
+        	ActionBar actionBar = getActionBar();
+    		actionBar.setTitle(taskname);
+    		actionBar.setSubtitle("Go back to discard changes");
            
         }
     }
@@ -117,7 +123,20 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
 		
 		((EditText) findViewById(R.id.add_task_name)).setText(taskname);
 		
-		((Button) findViewById(R.id.add_alarm_time)).setText(cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE));
+		String hr = ""+hour;
+		String mn = ""+minute;
+		
+		if(hour < 10) {
+			 hr = "0" + hour;
+		}
+		if(minute < 10) {
+		     mn = "0" + minute;
+		}
+		
+		
+
+		
+		((Button) findViewById(R.id.add_alarm_time)).setText( hr + ":" + mn);
 		List<String> items = new ArrayList<String>();
 		
 		items.add("Sunday");
@@ -164,7 +183,17 @@ public class EditActivity extends Activity implements MultiSpinnerListener {
  
 			// set current time into textview
 			TextView tv = (TextView) findViewById(R.id.add_alarm_time);
-			tv.setText(hour+":"+minute);
+			String hr = ""+hour;
+			String mn = ""+minute;
+			
+			if(hour < 10) {
+				 hr = "0" + hour;
+			}
+			if(minute < 10) {
+			     mn = "0" + minute;
+			}
+			
+			tv.setText(hr+":"+mn);
 
 		}
 	};

@@ -232,11 +232,11 @@ public class DataShop {
     	  cursor.moveToFirst();
     	  for(int i=0; i<cursor.getCount(); ++i) {
     		  if(cursor.getInt(4) == 1) {
-    			  dotColors[i] = R.drawable.green;
+    			  dotColors[i] = R.drawable.presence_online;
     		  } else if(cursor.getInt(4) == 0) {
-    			  dotColors[i] = R.drawable.red;
+    			  dotColors[i] = R.drawable.presence_busy;
     		  } else {
-    			  dotColors[i] = R.drawable.grey;
+    			  dotColors[i] = R.drawable.presence_invisible;
     		  }
        		  if(!cursor.isLast()) {
     			  cursor.moveToNext();
@@ -255,7 +255,7 @@ public class DataShop {
     		  }
     		  
     		  for(int k=cursor.getCount(); k<7; k++){
-    			  stats[k] = R.drawable.grey;
+    			  stats[k] = R.drawable.presence_invisible;
     		  }
     		  
     	  } else {
@@ -272,22 +272,27 @@ public class DataShop {
     	  
      }
       
-      public int[] get_task_status_for_graph( int id ) {
-    	  
+      public GraphObject get_task_status_for_graph( int id ) {
+    	  GraphObject object = new GraphObject();
+    	  int days, hits=0, misses=0;
+
     	  int dayofyear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
     	  int[] dotColors = new int[500];
     	  int i=0;
     	  
     	  Cursor cursor = database.query(DbHelper.TABLE_TRACKER, TableTrackerAllColumns, DbHelper.COLUMN_TID1 + " = " + id, null, null, null, null);
+    	  days = cursor.getCount();
     	  cursor.moveToFirst();
     	  
     	  for(i=0; i<cursor.getCount(); ++i) {
     		  if(cursor.getInt(4) == 1) {
-    			  dotColors[i] = R.drawable.green;
+    			  dotColors[i] = R.drawable.presence_online;
+    			  ++hits;
     		  } else if(cursor.getInt(4) == 0) {
-    			  dotColors[i] = R.drawable.red;
+    			  dotColors[i] = R.drawable.presence_busy;
+    			  ++misses;
     		  } else {
-    			  dotColors[i] = R.drawable.grey;
+    			  dotColors[i] = R.drawable.presence_invisible;
     		  }
     		  
     		  
@@ -298,28 +303,48 @@ public class DataShop {
     	  
     	  
     	  for(int k=i; k<500; k++) {
-    		  dotColors[k] = R.drawable.grey;
+    		  dotColors[k] = R.drawable.presence_invisible;
     	  }
     	  
     	  
     	  System.out.println("Size of stats: " + dotColors.length);
-    	  return dotColors;
+    	  object.dotColors = dotColors;
+    	  object.days_from_genesis = days;
+    	  object.hits = hits;
+    	  object.misses = misses;
+    	  return object;
+      }
+      
+      public int get_stat_for_day(  int id, int dayofyear) {
+    	  int prestat;
+    	  Cursor cursor = database.query(DbHelper.TABLE_TRACKER, TableTrackerAllColumns, DbHelper.COLUMN_TID1 + " = " + id + " and " + DbHelper.COLUMN_DAYOFYEAR + " = " + dayofyear, null, null, null, null);
+    	  if(cursor.getCount() == 0) {
+    		  prestat = 2;
+    	  } else {
+    		  cursor.moveToFirst();
+    		  if(cursor.getInt(4) == 1) {
+    			  prestat = 1;
+    		  } else {
+    			  prestat = 0;
+    		  }
+    	  }
+    	  return prestat;
       }
       
       public void update_ifnot_insert_stat( int id, int stat ) {
     	  int dayofyear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-    	  Cursor cursor = database.query(DbHelper.TABLE_TRACKER, TableTrackerAllColumns, DbHelper.COLUMN_TID1 + " = " + id + " & " + DbHelper.COLUMN_DAYOFYEAR + " = " + dayofyear, null, null, null, null);
+    	  Cursor cursor = database.query(DbHelper.TABLE_TRACKER, TableTrackerAllColumns, DbHelper.COLUMN_TID1 + " = " + id + " and " + DbHelper.COLUMN_DAYOFYEAR + " = " + dayofyear, null, null, null, null);
     	  ContentValues values = new ContentValues();
 
-    	  if(cursor.getCount() != 0) {
+    	  if(cursor.getCount() > 0) {
     		  values.put(DbHelper.COLUMN_STATUS, stat);
     		
-    		  database.update(DbHelper.TABLE_TRACKER, values, DbHelper.COLUMN_NID + " = " + id, null);
+    		  database.update(DbHelper.TABLE_TRACKER, values, DbHelper.COLUMN_DAYOFYEAR + " = " + dayofyear + " and " + DbHelper.COLUMN_TID1 + " = " + id, null);
     		  System.out.println("updated status");
     	  }
     	  else {
     		  Calendar cal = Calendar.getInstance();
-    		  values.put(DbHelper.COLUMN_NID, id);
+    		  values.put(DbHelper.COLUMN_TID1, id);
     		  values.put(DbHelper.COLUMN_CURDATE, cal.getTimeInMillis());
     		  values.put(DbHelper.COLUMN_DAYOFYEAR, dayofyear);
     		  values.put(DbHelper.COLUMN_STATUS, stat);

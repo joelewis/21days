@@ -71,6 +71,14 @@
             android:name="com.ithoughts.twentyonedays.InputActivity"
             android:label="@string/title_activity_input" >
         </activity>
+        <activity
+            android:name="com.ithoughts.twentyonedays.EditListActivity"
+            android:label="@string/title_activity_edit_list"
+            android:parentActivityName="com.ithoughts.twentyonedays.LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ithoughts.twentyonedays.LaunchActivity" />
+        </activity>
     </application>
 
 </manifest>

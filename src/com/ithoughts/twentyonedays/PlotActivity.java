@@ -1,5 +1,6 @@
 package com.ithoughts.twentyonedays;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +10,14 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.TextView;
 
 public class PlotActivity extends Activity {
 	DataShop datashop;
 	Context context;
 	int id;
+	String taskName;
+	GraphObject graph;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,8 @@ public class PlotActivity extends Activity {
         	datashop = new DataShop(context);
         	datashop.open();        	
         	int id = objects[0];
-        	dotColors = datashop.get_task_status_for_graph(id);
-        	
+        	graph = datashop.get_task_status_for_graph(id);
+        	taskName = datashop.getTaskNameById(id);
         	datashop.close();
         	return null;
         }
@@ -65,8 +69,23 @@ public class PlotActivity extends Activity {
     }
 	
 	public void updateui(int[] dotColors) {
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(taskName);
 		GridView gridView = (GridView) findViewById(R.id.grid_view);
-		gridView.setAdapter(new ImageAdapter(this, dotColors));
+		gridView.setAdapter(new ImageAdapter(this, graph.dotColors));
+		TextView tv = (TextView) findViewById(R.id.hit_miss);
+		String statistics =  graph.days_from_genesis + " days, since start with " + graph.hits + " hits and ";
+		String misses;
+		if(graph.misses == 0) {
+			misses = " no misses ";
+		} else if(graph.misses == 1) {
+			misses = " one miss ";
+		} else {
+			misses = graph.misses + " misses";
+		}
+		statistics = statistics + misses;
+		tv.setText(statistics);
 		
 	}
 

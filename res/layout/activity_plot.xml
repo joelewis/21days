@@ -51,7 +51,8 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:layout_weight="0.5"
-            android:text="22 hits and 0 misses" />
+            android:text="26 days since start, 22 hits and no misses"
+            />
 
     </LinearLayout>
     </LinearLayout>

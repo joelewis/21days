@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -36,6 +37,9 @@ public class LaunchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch);	
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle("Your Activities");
+		actionBar.setSubtitle("Touch + to add a new activity");
 		new QueryDb().execute();
 	}
 	
@@ -304,6 +308,15 @@ public class LaunchActivity extends Activity {
 	            return true;
 	        case R.id.delete_option:
 	            //deleteNote(info.id);
+	        	datashop.open();
+	        	int idd = ((ArrayAdapter<TaskPlus>) lvv.getAdapter()).getItem(info.position).id;
+	        	((ArrayAdapter<TaskPlus>) lvv.getAdapter()).remove(((ArrayAdapter<TaskPlus>) lvv.getAdapter()).getItem(info.position));
+				long[] ids = new long[1];
+				ids[0] = idd;
+				datashop.deleteMultipleTasks(ids);
+				datashop.deleteNotify(ids);
+				datashop.deleteTaskDays(ids);
+				datashop.close();
 	            return true;
 	        default:
 	            return super.onContextItemSelected(item);
@@ -356,6 +369,23 @@ public class LaunchActivity extends Activity {
 	            //intent.putExtra("intention", 1);
 	            startActivityForResult(intent, 1);
 	            return true;
+	            
+	        case R.id.edit_task:
+	        	Intent edit = new Intent(this, EditListActivity.class);
+	            edit.putExtra("intention", 1);
+	            //intent.putExtra("intention", 1);
+	            startActivity(edit);
+	            return true;
+	        
+	        case R.id.delete_task:
+	        	Intent delete = new Intent(this, EditListActivity.class);
+	            delete.putExtra("intention", 1);
+	            //intent.putExtra("intention", 1);
+	            startActivity(delete);
+	            return true;
+	        	
+	        	
+	        	
 	       
 	        //case R.id.action_settings:
 	        	//Intent settings = new Intent(this, SettingsActivity.class);

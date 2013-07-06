@@ -23,14 +23,16 @@ public class CustomMarkAdapter extends ArrayAdapter {
     String[] dates = new String[7];
     int[] stats = new int[7];
     int[] valids = new int[7];
+    int[] prestats = new int[7];
     
 
-public CustomMarkAdapter(Context contextt, String[] dayss, String[] datess, int[] validss) {
+public CustomMarkAdapter(Context contextt, String[] dayss, String[] datess, int[] validss, int[] prestatss) {
     super(contextt, R.layout.simple_list_item_2, R.id.text11, dayss);
     context = contextt;
     days = dayss;
     dates = datess;
     valids = validss;
+    prestats = prestatss;
 	//res = context.getResources();
 }
 
@@ -64,6 +66,12 @@ public View getView(int position, View convertView, ViewGroup parent) {
    if(valids[position]==1) {
 	   
 	   tb.setEnabled(true);
+	   if(prestats[position] == 1) {
+		   
+		   tb.setChecked(true);
+	   } else {
+		   tb.setChecked(false);
+	   }
    }
    else {
 	   tb.setEnabled(false);
@@ -90,7 +98,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
     		   stats[i] = 0;
     	   }
            // TODO Auto-generated method stub
-           Toast.makeText(context, tb1.getText().toString(), Toast.LENGTH_LONG).show();
+           //Toast.makeText(context, tb1.getText().toString(), Toast.LENGTH_LONG).show();
        }
    });
 

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -35,6 +36,9 @@ public class AddActivity extends Activity implements MultiSpinnerListener {
 		setContentView(R.layout.activity_add);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle("Add Activity");
+		actionBar.setSubtitle("Go back to discard");
 		List<String> items = new ArrayList<String>();
 		
 		items.add("Sunday");

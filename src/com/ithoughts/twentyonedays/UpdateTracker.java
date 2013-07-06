@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,10 +23,12 @@ public class UpdateTracker extends Activity {
 	String[] day = new String[7];
 	String[] dateString = new String[7];
 	int[] valids = new int[7];
+	int[] prestat = new int[7];
 	Context context;
 	DataShop datashop;
 	ListView listview;
 	int id;
+	String taskName;
 	
 	
 	@Override
@@ -49,11 +52,16 @@ public class UpdateTracker extends Activity {
 			SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d, ''yy", Locale.US);
 			String asWeek = dateFormat.format(date);
 			String fullDate = dateFormat2.format(date);
+			prestat[i] = datashop.get_stat_for_day(id, today.get(Calendar.DAY_OF_YEAR));
 			valids[i] = datashop.getDayStatus(id, today.get(Calendar.DAY_OF_WEEK));
 			day[i] = asWeek;
 			dateString[i] = fullDate;
 			today.roll(Calendar.DAY_OF_YEAR, false);
 		}
+		taskName = datashop.getTaskNameById(id);
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(taskName);
+		actionBar.setSubtitle("Mark upto a week");
 		
 		
 
@@ -64,7 +72,7 @@ public class UpdateTracker extends Activity {
 		
 		
 		
-		CustomMarkAdapter adapter = new CustomMarkAdapter(this, day, dateString, valids);
+		CustomMarkAdapter adapter = new CustomMarkAdapter(this, day, dateString, valids, prestat);
 		ListView lv = (ListView) findViewById(R.id.mark_list);
 		lv.setAdapter(adapter);
 		listview = lv;
@@ -110,6 +118,8 @@ public class UpdateTracker extends Activity {
         		}
         		todayagain.roll(Calendar.DAY_OF_YEAR, false);
         	}
+        	
+        	datashop.close();
         	return null;
         }
         

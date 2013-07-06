@@ -69,7 +69,9 @@ public class NotificationService extends IntentService {
 		    
 		    	Intent nintent = new Intent();
 		    
-		    	nintent.setClass(this, LaunchActivity.class);
+		    	nintent.setClass(this, InputActivity.class);
+		    	nintent.putExtra("id", id);
+		    	nintent.putExtra("name", name);
 		    
 		    	PendingIntent pin = PendingIntent.getActivity(getApplicationContext(), 0, nintent, 0);
 		    
