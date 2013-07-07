@@ -49,6 +49,36 @@
         android:onClick="show_time_picker"        
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <Button
+        android:id="@+id/add_done"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Done" 
+        android:layout_marginTop="30dp"
+        android:onClick="saveThis"        
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rounded_corner_view"/>
+        <Button
+        android:id="@+id/add_cancel"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Discard" 
+        android:layout_marginTop="30dp"
+        android:onClick="deleteThis"        
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rounded_corner_view_red"/>
+    </LinearLayout>
 
    </LinearLayout>
 

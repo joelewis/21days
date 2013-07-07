@@ -71,7 +71,8 @@
         </activity>
         <activity
             android:name="com.ithoughts.twentyonedays.InputActivity"
-            android:label="@string/title_activity_input" >
+            android:label="@string/title_activity_input" 
+            android:launchMode="singleTop">
         </activity>
         <activity
             android:name="com.ithoughts.twentyonedays.EditListActivity"

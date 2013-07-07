@@ -2,7 +2,6 @@ package com.ithoughts.twentyonedays;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -73,8 +72,6 @@ public class AddActivity extends Activity implements MultiSpinnerListener {
 			hour = selectedHour;
 			minute = selectedMinute;
 			Calendar cal_alarm = Calendar.getInstance();
-			Date date = new Date();
-			cal_alarm.setTime(date);
 			cal_alarm.set(Calendar.HOUR_OF_DAY, hour);
 			cal_alarm.set(Calendar.MINUTE, minute);
 			ms = cal_alarm.getTimeInMillis();
@@ -103,6 +100,25 @@ public class AddActivity extends Activity implements MultiSpinnerListener {
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
+	}
+	
+	public void saveThis(View v) {
+		
+		((TextView) v).setText("Saving...");
+		Intent data = new Intent();
+		data.putExtra("name", ((TextView)findViewById(R.id.add_task_name)).getText().toString());
+		data.putExtra("alarm-hour", hour);
+		data.putExtra("alarm-minute", minute);
+		data.putExtra("days", selectedItems);
+		data.putExtra("ms", ms);
+		setResult(RESULT_OK, data);
+		super.finish();
+	}
+	
+	public void deleteThis(View v) {
+		
+		((TextView) v).setText("Discarding..");
+		super.finish();
 	}
 
 	@Override

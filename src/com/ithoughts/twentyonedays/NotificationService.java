@@ -72,6 +72,7 @@ public class NotificationService extends IntentService {
 		    	nintent.setClass(this, InputActivity.class);
 		    	nintent.putExtra("id", id);
 		    	nintent.putExtra("name", name);
+		    	//nintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		    
 		    	PendingIntent pin = PendingIntent.getActivity(getApplicationContext(), 0, nintent, 0);
 		    

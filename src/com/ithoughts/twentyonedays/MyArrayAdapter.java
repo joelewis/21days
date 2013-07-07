@@ -68,10 +68,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
     Log.i("cal", "today ms: " + cal_today.getTimeInMillis() +"| now ms: " + cal_now.getTimeInMillis());
     Log.i("","view|convertView|position "+v + "|" +convertView +"|"+position+"|"+parent);
     */
-    for(int i=0; i<tasks.get(position).dotColors.length; i++) {
-    	System.out.println("" + tasks.get(position).name + ": " + tasks.get(position).dotColors[i]);
-    }
-    
+   
     ImageView im1 = (ImageView) linearLayout.findViewById(R.id.day1); 
     im1.setImageDrawable(res.getDrawable(tasks.get(position).dotColors[6]));
     ImageView im2 = (ImageView) linearLayout.findViewById(R.id.day2); 
