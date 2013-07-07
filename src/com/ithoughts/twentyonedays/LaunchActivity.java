@@ -376,13 +376,13 @@ public class LaunchActivity extends Activity {
 	            //intent.putExtra("intention", 1);
 	            startActivity(edit);
 	            return true;
-	        
+	        /*
 	        case R.id.delete_task:
 	        	Intent delete = new Intent(this, EditListActivity.class);
 	            delete.putExtra("intention", 1);
 	            //intent.putExtra("intention", 1);
 	            startActivity(delete);
-	            return true;
+	            return true;*/
 	        	
 	        	
 	        	

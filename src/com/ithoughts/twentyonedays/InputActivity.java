@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class InputActivity extends Activity {
 	int id;
@@ -19,6 +20,9 @@ public class InputActivity extends Activity {
 		String name = getIntent().getExtras().getString("name");
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(name);
+		
+		TextView tv = (TextView) findViewById(R.id.task_name);
+		tv.setText(name);
 	}
 
 	@Override

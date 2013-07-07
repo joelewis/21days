@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
+  <!--   <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_settings"/> -->
     <item android:id="@+id/add_task" android:title="Add" android:showAsAction="always" android:visible="true" android:icon="@drawable/content_new"></item>
     <item android:id="@+id/edit_task" android:title="Edit" android:showAsAction="never" android:visible="true" android:icon="@drawable/ic_menu_edit"></item>
-    <item android:id="@+id/delete_task" android:title="Delete" android:showAsAction="never" android:visible="true"  android:icon="@drawable/ic_menu_delete"></item>
+    
 </menu>

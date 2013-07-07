@@ -16,7 +16,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corner" 
         android:orientation="vertical" 
-        android:onClick="edit_tracker">
+        android:onClick="edit_tracker"
+        >
     
     <GridView 
     android:id="@+id/grid_view"
@@ -31,7 +32,8 @@
     android:paddingTop="8dip"
     android:gravity="center"
     android:layout_weight="0.7"
-    android:background="@drawable/rounded_corner"> 
+    android:background="@drawable/rounded_corner"
+    > 
     </GridView>
     
     
@@ -46,14 +48,63 @@
         android:background="@drawable/rounded_corner" >
 
         <TextView
-            android:id="@+id/hit_miss"
+            android:id="@+id/genesis"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_weight="0.5"
-            android:text="26 days since start, 22 hits and no misses"
+            android:layout_marginTop="20dip"
+            android:text="26 days since start"
+            android:textStyle="bold"
             />
+        <TextView
+            android:id="@+id/hits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="21, hits"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/misses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0, misses"
+            android:textStyle="bold"
+            />
+        
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
 
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/facebook"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:background="@drawable/glyphicons_410_facebook"
+            android:layout_margin="5dip"
+            android:gravity="center"
+            android:layout_gravity="center" 
+            android:onClick="post" 
+            android:padding="10dip"
+            />
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/gplus"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:background="@drawable/glyphicons_411_twitter"            
+            android:layout_margin="5dip"
+            android:gravity="center"
+            android:layout_gravity="center" 
+            android:onClick="tweet" 
+            android:padding="10dip"
+            />
+	   </LinearLayout>
     </LinearLayout>
     </LinearLayout>
     

@@ -26,7 +26,7 @@ public class AddActivity extends Activity implements MultiSpinnerListener {
 	String name;
 	long alarmTime;
     static final int TIME_DIALOG_ID = 999;
-	private int hour = 9;
+	private int hour = 21;
 	private int minute = 30;
 	long ms;
 	

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Twentyonedays</string>
+    <string name="app_name">Twenty One Days</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_add">AddActivity</string>
-    <string name="title_activity_plot">PlotActivity</string>
-    <string name="title_activity_update_tracker">UpdateTracker</string>
-    <string name="title_activity_edit">EditActivity</string>
-    <string name="title_activity_input">InputActivity</string>
-    <string name="title_activity_edit_list">EditListActivity</string>
+    <string name="title_activity_add">Add New Activity</string>
+    <string name="title_activity_plot">Graph</string>
+    <string name="title_activity_update_tracker">Mark</string>
+    <string name="title_activity_edit">Edit Activity</string>
+    <string name="title_activity_input">Mark</string>
+    <string name="title_activity_edit_list">Edit</string>
 
 </resources>

@@ -58,6 +58,8 @@ public class UpdateTracker extends Activity {
 			dateString[i] = fullDate;
 			today.roll(Calendar.DAY_OF_YEAR, false);
 		}
+		day[0] = "Today";
+		day[1] = "Yesterday";
 		taskName = datashop.getTaskNameById(id);
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(taskName);
