@@ -59,7 +59,7 @@
             android:parentActivityName="com.ithoughts.twentyonedays.LaunchActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ithoughts.twentyonedays.PlotActivity" />
+                android:value="com.ithoughts.twentyonedays.LaunchActivity" />
         </activity>
         <activity
             android:name="com.ithoughts.twentyonedays.EditActivity"
