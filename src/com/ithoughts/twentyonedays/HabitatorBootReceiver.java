@@ -38,8 +38,6 @@ public class HabitatorBootReceiver extends BroadcastReceiver {
     	   cal_alarm.set(Calendar.MINUTE, cal_now.get(Calendar.MINUTE));
     	   scheduleAlarmReciever(context, cal_alarm, id);
        }
-	   
-       
    }
    
    public void scheduleAlarmReciever(Context context, Calendar cal_alarm, int id) {
@@ -64,7 +62,5 @@ public class HabitatorBootReceiver extends BroadcastReceiver {
     	  Log.i("","cal_alarm is in past");
       }
       alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-      
-	   
    }
 }

@@ -13,8 +13,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-
-
 // Use IntentService which will queue each call to startService(Intent) through onHandleIntent and then shutdown
 //
 // NOTE that this implementation intentionally doesn't use PowerManager/WakeLock or deal with power issues
@@ -63,9 +61,7 @@ public class NotificationService extends IntentService {
 		    	String name = datashop.getTaskNameById(id);
 		    	
 		    	String title = "New Activity";
-		    	String body = "Did you do this? y/n - " + name;
-		    
-		    
+		    	String body = "Did you do this activity today? " + name;
 		    
 		    	Intent nintent = new Intent();
 		    
